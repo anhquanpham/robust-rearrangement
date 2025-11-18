@@ -1,0 +1,30 @@
+training:
+  gpu_id: 0
+  
+  actor_lr: 1e-4
+  encoder_lr: ${training.actor_lr}
+  clip_grad_norm: false
+  clip_sample: true
+  mixed_precision: false
+  
+  num_epochs: 10000
+  batch_size: 256
+  start_epoch: 0
+  steps_per_epoch: 1000 # Set to -1 to do one pass over the dataset
+
+  load_checkpoint_run_id: null
+  
+  eval_every: 10
+  sample_every: 100
+  
+  model_save_dir: models
+  checkpoint_interval: -1
+
+  store_best_test_loss_model: true
+  store_last_model: true
+  store_best_success_rate_model: true
+
+  ema:
+    use: false
+    decay: 0.999
+    switch: false

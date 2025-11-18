@@ -1,0 +1,27 @@
+# @package _global_
+defaults:
+  - override /rollout: rollout
+
+observation_type: state
+
+control:
+  controller: diffik
+
+action_horizon: 8
+pred_horizon: 32
+obs_horizon: 1
+
+demo_source: teleop
+
+early_stopper:
+  patience: inf
+
+training:
+  batch_size: 256
+  steps_per_epoch: 1000
+  checkpoint_interval: 500
+  num_epochs: 5000
+
+wandb:
+  project: ${task}-state-${randomness}
+  entity: robust-assembly

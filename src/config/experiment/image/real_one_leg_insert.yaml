@@ -1,0 +1,41 @@
+# @package _global_
+defaults:
+  - override /vision_encoder: resnet
+
+observation_type: image
+
+vision_encoder:
+  pretrained: true
+  freeze: false
+
+action_horizon: 8
+pred_horizon: 32
+obs_horizon: 1
+  
+data:
+  data_subset: null
+  augment_image: true
+  dataloader_workers: 20
+
+training:
+  batch_size: 256
+  checkpoint_interval: 40
+  num_epochs: 2000
+  steps_per_epoch: -1
+
+regularization:
+  feature_layernorm: true
+  feature_noise: false
+  feature_dropout: false
+  proprioception_dropout: false
+
+furniture: ???
+randomness: low
+demo_source: teleop
+environment: real
+
+early_stopper:
+  patience: 20
+
+wandb:
+  project: real-one_leg_insert-1

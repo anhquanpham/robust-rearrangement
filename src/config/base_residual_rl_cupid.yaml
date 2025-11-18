@@ -1,0 +1,37 @@
+defaults:
+- base_residual_rl
+- _self_
+
+# CUPID settings (TRAK-based influence functions)
+use_cupid: true  # Enable CUPID TRAK influence weighting
+
+# How often to compute TRAK influence (balance between overhead and CUPID usage)
+# Since data changes every iteration, TRAK is computed fresh each time it's used.
+# Other iterations use uniform sampling (baseline PPO).
+# - interval=1: TRAK every iteration (full CUPID, ~75% overhead per iteration)
+# - interval=5: TRAK every 5th iteration (20% CUPID coverage, ~15% overhead average)
+# - interval=10: TRAK every 10th iteration (10% CUPID coverage, ~8% overhead average)
+# Recommendation: Start with interval=1 for full CUPID. If too slow, increase to 5 or 10.
+cupid_compute_interval: 1
+
+cupid_proj_dim: 256  # TRAK projection dimension (lower = faster but less accurate)
+cupid_half_precision: true  # Use half precision for TRAK (faster, 2x less memory)
+
+# Memory management: subsample collected data before TRAK computation
+# PPO trains ONLY on this subsampled data (with CUPID importance weights)
+# This ensures TRAK sees the same data PPO trains on (no weight mismatch)
+#
+# Memory estimate: train_samples × (test_samples ≈ train_samples × success_rate) × 2 bytes (fp16)
+# - 100k train × 15k test (15% SR): ~3 GB
+# - 150k train × 22k test (15% SR): ~6.6 GB  
+# - 200k train × 30k test (15% SR): ~12 GB
+cupid_max_train_samples: 20000  # Subsample collected data to this size before TRAK + PPO
+
+wandb:
+  project: one_leg-residual-rl # Or keep ${env.task}-residual-rl-cupid for auto-naming
+  mode: online
+  entity: null
+  notes: "Training with CUPID TRAK influence weighting"
+  continue_run_id: null
+
+

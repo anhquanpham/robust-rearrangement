@@ -1,0 +1,41 @@
+# @package _global_
+defaults:
+  - override /vision_encoder: resnet
+  - override /actor: mlp
+
+observation_type: image
+
+vision_encoder:
+  pretrained: true
+  freeze: false
+
+pred_horizon: 32
+action_horizon: 8
+obs_horizon: 1
+
+randomness: low
+furniture: ???
+demo_source: teleop
+
+actor:
+  hidden_dims: [1024, 1024, 1024, 1024, 1024]
+  residual: true
+
+data:
+  data_subset: null
+  augment_image: true
+  dataloader_workers: 16
+
+training:
+  batch_size: 256
+
+regularization:
+  feature_layernorm: false
+  feature_noise: false
+  feature_dropout: false
+
+control:
+  control_mode: pos
+
+wandb:
+  project: ${furniture}-mlp-10M-baseline-1

@@ -1,0 +1,6 @@
+model: spatial_softmax
+freeze: false
+pretrained: false
+backbone: resnet18
+use_groupnorm: true
+num_kp: 64
